@@ -4,11 +4,12 @@
 
 % In this case, you are using all your electrodes, not a subset.
 electrodes = {EEG.chanlocs(:).labels};
+ndepths = 5;
 % Type "electrodes" into the command line. This will show you which number to use for i_chan
 
 % This code will take a grand average of the subjects, making one figure per set.
 % This is the normal way to present ERP results.
-i_chan = [1,15];%%%1(O1) 15(O2) 7(Pz) 8(Cz) 9(Fz) 17(HEOG) 18(VEOG) 
+i_chan = [7];%%%1(O1) 15(O2) 7(Pz) 8(Cz) 9(Fz) 17(HEOG) 18(VEOG) 
 for i_set = 1:nsets
     data_out = [];
     exp.setname{i_set}
@@ -29,98 +30,47 @@ for i_set = 1:nsets
 end
 
 %%%erpdata, erpdata_parts, all_chan_parts are organised the following%%%
-%%%ROWS = Conditions (Depth_1;Depth_2;Depth_3;Depth_4;Depth_5)%%%
-%%%COLUMNS = Events...
-%%%(Standards,Targets)%%%
+%%%COLUMNS = Conditions (Depth_1;Depth_2;Depth_3;Depth_4;Depth_5)%%%
+%%%ROWS = Events...
+%%%(Depends on loaded dataset)%%%
 
 %%%%%THE FOLLOWING ARE  FOR EACH PARTICIPANT, SEE BELOW FOR GRAND AVERAGE ERPS%%%%%
-% if exp.trigger_set == 1
-%     col = {'r';'g';'b';'m';'c'};%%%Orb onset at five depths
-% elseif exp.trigger_set == 2
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour onset for standards and targets, five depths
-% elseif exp.trigger_set == 3
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour offset for standards and targets, five depths
-% elseif exp.trigger_set == 4
-%     col = {'r';'g';'b';'m';'c';};%%%Responses to targets at five depths
-% end
-
-col = {'r';'g';'b';'m';'c'};%%%Orb onset at five depths
-%%%%% Pick your condition 1 = Depth_1;2 = Depth_2;3 = Depth_3;4 = Depth_4;5 = Depth_5%%%%%
-cond1 = 1;
-cond2 = 2;
-cond3 = 3;
-cond4 = 4;
-cond5 = 5;
-%%%%%Pick your event. May only be one event, based on the trigger set you loaded%%%%%
-%%%1 = Standards,2 = Targets
-event1 = 1;
-event2 = 1;
-
-%%%%%ERPs for high/low tones%%%%%
+col = {'r';'g';'b';'m';'c'};%%%Orb onset, response, offset (depending on loaded dataset - at five depths
+event_1 = 1; %%Only one event type per position per loaded data set 
+%%%%%ERPs for each depth%%%%%
 figure;hold on;
 for i_part = 1:nparts
-    subplot(ceil(sqrt(nparts)),ceil(sqrt(nparts)),i_part);
-    boundedline(EEG.times,erpdata_parts(cond1,event1).cond(:,i_part),std(erpdata_parts(cond1,event1).cond(:,i_part))./sqrt(length(exp.participants)),col{cond1,event1})
-%     ,...
-%         EEG.times,erpdata_parts(cond2,event1).cond(:,i_part),std(erpdata_parts(cond2,event1).cond(:,i_part))./sqrt(length(exp.participants)),col{cond2,event1},...
-%         EEG.times,erpdata_parts(cond3,event1).cond(:,i_part),std(erpdata_parts(cond3,event1).cond(:,i_part))./sqrt(length(exp.participants)),col{cond3,event1},...
-%         EEG.times,erpdata_parts(cond4,event1).cond(:,i_part),std(erpdata_parts(cond4,event1).cond(:,i_part))./sqrt(length(exp.participants)),col{cond4,event1},...
-%         EEG.times,erpdata_parts(cond5,event1).cond(:,i_part),std(erpdata_parts(cond5,event1).cond(:,i_part))./sqrt(length(exp.participants)),col{cond5,event1},...
-%         EEG.times,erpdata_parts(cond1,event2).cond(:,i_part),std(erpdata_parts(cond1,event2).cond(:,i_part))./sqrt(length(exp.participants)),col{cond1,event2},...
-%         EEG.times,erpdata_parts(cond2,event2).cond(:,i_part),std(erpdata_parts(cond2,event2).cond(:,i_part))./sqrt(length(exp.participants)),col{cond2,event2},...
-%         EEG.times,erpdata_parts(cond3,event2).cond(:,i_part),std(erpdata_parts(cond3,event2).cond(:,i_part))./sqrt(length(exp.participants)),col{cond3,event2},...
-%         EEG.times,erpdata_parts(cond4,event2).cond(:,i_part),std(erpdata_parts(cond4,event2).cond(:,i_part))./sqrt(length(exp.participants)),col{cond4,event2},...
-%         EEG.times,erpdata_parts(cond5,event2).cond(:,i_part),std(erpdata_parts(cond5,event2).cond(:,i_part))./sqrt(length(exp.participants)),col{cond5,event2});
-%     %%%%% epoched to last entrainer %%%%%
-    xlim([-200 1000])
-    ylim([-10 10])
-    set(gca,'Ydir','reverse');
-    %%%%% epoched to last entrainegfhr %%%%%
-    line([0 0],[-10 10],'color','k');
-    line([-200 1000],[0 0],'color','k');
-    title(['Participant ' num2str(i_part)]);
+    for i_depth = 1:ndepths
+        subplot(ceil(sqrt(nparts)),ceil(sqrt(nparts)),i_part);
+        boundedline(EEG.times,erpdata_parts(i_depth,event_1).cond(:,i_part),std(erpdata_parts(i_depth,event_1).cond(:,i_part))./sqrt(length(exp.participants)),col{i_depth,event_1})
+    end
 end
-hold off;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%THE FOLLOWING ARE FOR GRAND AVERAGES%%%%%
-% if exp.trigger_set == 1
-%     col = {'r';'g';'b';'m';'c'};%%%Orb onset at five depths
-% elseif exp.trigger_set == 2
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour onset for standards and targets, five depths
-% elseif exp.trigger_set == 3
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour offset for standards and targets, five depths
-% elseif exp.trigger_set == 4
-%     col = {'r';'g';'b';'m';'c';};%%%Responses to targets at five depths
-% end
-col = {'r';'g';'b';'m';'c'};%%%Orb onset at five depths
-%%%%% Pick your condition 1 = Depth_1;2 = Depth_2;3 = Depth_3;4 = Depth_4;5 = Depth_5%%%%%
-cond1 = 1;
-cond2 = 2;
-cond3 = 3;
-cond4 = 4;
-cond5 = 5;
-%%%%%Pick your event. May only be one event, based on the trigger set you loaded%%%%%
-%%%1 = Standards,2 = Targets
-event1 = 1;
-
-%%%%%Grand average ERPs%%%%%
-figure;
-boundedline(EEG.times,erpdata(cond1,event1).cond,std(erpdata_parts(cond1,event1).cond,[],2)./sqrt(length(exp.participants)),col{cond1,event1},...
-    EEG.times,erpdata(cond2,event1).cond,std(erpdata_parts(cond2,event1).cond,[],2)./sqrt(length(exp.participants)),col{cond2,event1},...
-    EEG.times,erpdata(cond3,event1).cond,std(erpdata_parts(cond3,event1).cond,[],2)./sqrt(length(exp.participants)),col{cond3,event1},...
-    EEG.times,erpdata(cond4,event1).cond,std(erpdata_parts(cond4,event1).cond,[],2)./sqrt(length(exp.participants)),col{cond4,event1},...
-    EEG.times,erpdata(cond5,event1).cond,std(erpdata_parts(cond5,event1).cond,[],2)./sqrt(length(exp.participants)),col{cond5,event1},...
-    EEG.times,erpdata(cond1,event2).cond,std(erpdata_parts(cond1,event2).cond,[],2)./sqrt(length(exp.participants)),col{cond1,event2},...
-    EEG.times,erpdata(cond2,event2).cond,std(erpdata_parts(cond2,event2).cond,[],2)./sqrt(length(exp.participants)),col{cond2,event2},...
-    EEG.times,erpdata(cond3,event2).cond,std(erpdata_parts(cond3,event2).cond,[],2)./sqrt(length(exp.participants)),col{cond3,event2},...
-    EEG.times,erpdata(cond4,event2).cond,std(erpdata_parts(cond4,event2).cond,[],2)./sqrt(length(exp.participants)),col{cond4,event2},...
-    EEG.times,erpdata(cond5,event2).cond,std(erpdata_parts(cond5,event2).cond,[],2)./sqrt(length(exp.participants)),col{cond5,event2});
-
-%%%%% epoched to last entrainer %%%%%
-xlim([0 600])
+xlim([-200 1000])
 ylim([-10 10])
 set(gca,'Ydir','reverse');
-%%%%% epoched to last entrainer %%%%%
+line([0 0],[-10 10],'color','k');
+line([-200 1000],[0 0],'color','k');
+title(['Participant ' num2str(i_part)]);
+hold off;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%THE FOLLOWING ARE FOR GRAND AVERAGES%%%%%
+col = {'r';'g';'b';'m';'c'};%%%Orb onset, response, offset (depending on loaded dataset - at five depths
+event_1 = 1; %%Only one event type per position per loaded data set 
+%%%%%Grand average ERPs%%%%%
+figure;hold on;
+for i_depth = 1:ndepths
+    subplot(ceil(sqrt(ndepths)),ceil(sqrt(ndepths)),i_depth);
+    boundedline(EEG.times,erpdata(i_depth,event_1).cond(1,:),std(erpdata(i_depth,event_1).cond(1,:))./sqrt(length(exp.participants)),col{i_depth,event_1})
+    xlim([0 600])
+    ylim([-10 20])
+    set(gca,'Ydir','reverse');
+    line([0 0],[-10 10],'color','k');
+    line([-200 1000],[0 0],'color','k');
+    title(['Grand Average - Depth' num2str(i_depth)])
+end
+% Line_x 
+% Line y 
 % % line([10 10],[-10 10],'color','k');
 % % line([30 30],[-10 10],'color','k');
 % % line([40 40],[-10 10],'color','k');
@@ -128,78 +78,66 @@ set(gca,'Ydir','reverse');
 % % line([80 80],[-10 10],'color','k');
 % % line([150 150],[-10 10],'color','k');
 % % line([150 150],[-10 10],'color','k');
-% % line([200 200],[-10 10],'color','k');
-% % line([350 350],[-10 10],'color','k');
-% % line([550 550],[-10 10],'color','k');
-% % line([250 250],[-10 10],'color','k');
-% % line([500 500],[-10 10],'color','k');
-
-line([0 0],[-10 10],'color','k');
-line([-200 1000],[0 0],'color','k');
-
+% % line([200 200],[-10 10],'color','k'); line([350 350],[-10 10],'color','k'); line([550 550],[-10 10],'color','k'); line([250 250],[-10 10],'color','k');  line([500 500],[-10 10],'color','k');
+hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%THE FOLLOWING ARE FOR GRAND AVERAGE DIFFERENCE WAVES%%%%%
-% if exp.trigger_set == 1
-%     col = {'r';'g';'b';'m';'c'};%%%Orb onset at five depths
-% elseif exp.trigger_set == 2
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour onset for standards and targets, five depths
-% elseif exp.trigger_set == 3
-%     col = {'k','r';'k','g';'k','b';'k','m';'k','c'};%%%Colour offset for standards and targets, five depths
-% elseif exp.trigger_set == 4
-%     col = {'r';'g';'b';'m';'c';};%%%Responses to targets at five depths
-% end
-%%%%% Pick your condition 1 = Depth_1;2 = Depth_2;3 = Depth_3;4 = Depth_4;5 = Depth_5%%%%%
-cond1 = 1;
-cond2 = 2;
-cond3 = 3;
-cond4 = 4;
-cond5 = 5;
-%%%%%Pick your event. May only be one event, based on the trigger set you loaded%%%%%
-%%%1 = Standards,2 = Targets
-event1 = 1;
-event2 = 2;
+col = {'r';'g';'b';'m';'c'};%%%Orb onset, response, offset (depending on loaded dataset - at five depths
+event_1 = 1; %%Only one event type per position per loaded data set 
 %%%%%Grand average ERPs%%%%%
-figure;
-boundedline(EEG.times,(erpdata(cond1,event2).cond-erpdata(cond1,event1).cond),std((erpdata_parts(cond1,event2).cond-erpdata_parts(cond1,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond1,event2},...
-EEG.times,(erpdata(cond2,event2).cond-erpdata(cond2,event1).cond),std((erpdata_parts(cond2,event2).cond-erpdata_parts(cond2,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond2,event2},...
-EEG.times,(erpdata(cond3,event2).cond-erpdata(cond3,event1).cond),std((erpdata_parts(cond3,event2).cond-erpdata_parts(cond3,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond3,event2},...
-EEG.times,(erpdata(cond4,event2).cond-erpdata(cond4,event1).cond),std((erpdata_parts(cond4,event2).cond-erpdata_parts(cond4,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond4,event2},...
-EEG.times,(erpdata(cond5,event2).cond-erpdata(cond5,event1).cond),std((erpdata_parts(cond5,event2).cond-erpdata_parts(cond5,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond5,event2});
+figure;hold on;
+if exp.condition_set == 1 %%% Near Target
+    target_depth = 1; %%% Standard, from which all other depths are subtracted
+    for i_depth = 1:ndepths
+        subplot(ceil(sqrt(ndepths)),ceil(sqrt(ndepths)),i_depth);
+        boundedline(EEG.times,erpdata(target_depth,event_1).cond-erpdata(i_depth,event_1).cond,std((erpdata(target_depth,event_1).cond-erpdata(i_depth,event_1).cond),[],2)./sqrt(length(exp.participants)),col{i_depth,event_1})
+        xlim([0 600])
+        ylim([-10 20])
+        set(gca,'Ydir','reverse');
+        line([0 0],[-10 10],'color','k');
+        line([-200 1000],[0 0],'color','k');
+        title(['Grand Average Difference Wave: Depth ' num2str(target_depth) ' - Depth' num2str(i_depth)])
+    end
+elseif exp.condition_set == 2 %%% Far Target
+    target_depth = 5; %%% Standard, from which all other depths are subtracted
+    for i_depth = 1:ndepths
+        subplot(ceil(sqrt(ndepths)),ceil(sqrt(ndepths)),ndepths);
+        boundedline(EEG.times,erpdata(target_depth,event_1).cond-erpdata(i_depth,event_1).cond,std((erpdata(target_depth,event_1).cond-erpdata(i_depth,event_1).cond),[],2)./sqrt(length(exp.participants)),col{i_depth,event_1})
+        xlim([0 600])
+        ylim([-10 20])
+        set(gca,'Ydir','reverse');
+        line([0 0],[-10 10],'color','k');
+        line([-200 1000],[0 0],'color','k');
+        title(['Grand Average Difference Wave: Depth ' num2str(target_depth) ' - Depth' num2str(i_depth)])    
+    end
+else
+    print('exp.condition_set is not set properly')
+end
 
-%%%%% epoched to last entrainer %%%%%
+% boundedline(EEG.times,(erpdata(cond1,event2).cond-erpdata(cond1,event1).cond),std((erpdata_parts(cond1,event2).cond-erpdata_parts(cond1,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond1,event2},...
+%     EEG.times,(erpdata(cond2,event2).cond-erpdata(cond2,event1).cond),std((erpdata_parts(cond2,event2).cond-erpdata_parts(cond2,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond2,event2},...
+%     EEG.times,(erpdata(cond3,event2).cond-erpdata(cond3,event1).cond),std((erpdata_parts(cond3,event2).cond-erpdata_parts(cond3,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond3,event2},...
+%     EEG.times,(erpdata(cond4,event2).cond-erpdata(cond4,event1).cond),std((erpdata_parts(cond4,event2).cond-erpdata_parts(cond4,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond4,event2},...
+%     EEG.times,(erpdata(cond5,event2).cond-erpdata(cond5,event1).cond),std((erpdata_parts(cond5,event2).cond-erpdata_parts(cond5,event1).cond),[],2)./sqrt(length(exp.participants)),col{cond5,event2});
+
 xlim([-200 600])
 ylim([-15 15])
 set(gca,'Ydir','reverse');
 %%%%% epoched to last entrainer %%%%%
 line([0 0],[-10 10],'color','k');
 line([-200 1000],[0 0],'color','k');
-
+hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%Power Topoplots%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Pick your condition 1 = Depth_1;2 = Depth_2;3 = Depth_3;4 = Depth_4;5 = Depth_5%%%%%
-cond1 = 1;
-cond2 = 2;
-cond3 = 3;
-cond4 = 4;
-cond5 = 5;
-%%%%%Pick your event. May only be one event, based on the trigger set you loaded%%%%%
-%%%1 = Standards,2 = Targets
-event1 = 1;
-event2 = 1;
+event_1 = 1; %%Only one event type per position per loaded data set 
+
 %%%%%Pick your time window%%%%%
 %%%orb onset
-time1 = 75;
-time2 = 150;
-
-time1 = 250;
-time2 = 500;
-
+%time1 = 75; time2 = 150;
+%time1 = 250; time2 = 500;
 %%%colour onset
-time1 = 150;
-time2 = 250;
-
-time1 = 350;
-time2 = 550;
+% time1 = 150; time2 = 250;
+% time1 = 350; time2 = 550;
 
 %%%%%Get topoplots for differnce between targets and standards%%%%%
 time_window = find(EEG.times>time1,1)-1:find(EEG.times>time2,1)-2;
