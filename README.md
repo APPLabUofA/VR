@@ -1,4 +1,4 @@
-# VR
+﻿# VR
 ## Writing
 
 1st paper - aud/vis + 2 position depth oddball
@@ -16,6 +16,16 @@
 Currently in data collection
 
 ## Analysis
-markerinfo.txt - **each event originally + recoded**
+Eden's_ERP_Restructure
+In reverse chronological order:
 
-subNotes.txt - **notes on each subject**
+5_Depth_Colourless
+
+includes markerinfo.txt **each event originally + recoded** & subNotes.txt **notes on each subject**
+
+2_Depth
+
+Aud_Vis
+
+
+

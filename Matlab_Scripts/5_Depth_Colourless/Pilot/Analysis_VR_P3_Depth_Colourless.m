@@ -31,11 +31,11 @@ try
     %% Load the data
     %The main loop loops over events, then participants, then sets.
     for i_set = 1:nsets
-        if i_set == 2
-            if exp.preprocess == 3
-                exp.name = 'VR_P3_Five_Depth_Near';
-            end
-        end
+%         if i_set == 2
+%             if exp.preprocess == 3
+%                 exp.name = 'VR_P3_Five_Depth_Near';
+%             end
+%         end
         %     exp.setname(i_set)
         tic
         %     for i_part = 1:nparts

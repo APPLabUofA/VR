@@ -32,11 +32,9 @@ try
             
             %% load a data file
             % for the pilot only - just one of each
-            EEG = pop_loadbv(exp.pathname, [exp.participants{i_part} '_01_' exp.name '.vhdr']);
-            % for the final experiment
-%             EEG1 = pop_loadbv(exp.pathname, [exp.participants{i_part} '_01_' exp.name '.vhdr']);
-%             EEG2 = pop_loadbv(exp.pathname, [exp.participants{i_part} '_02_' exp.name '.vhdr']);
-%             EEG = pop_mergeset(EEG1,EEG2,1);
+            EEG1 = pop_loadbv(exp.pathname, [exp.participants{i_part} '_' exp.name '_1.vhdr']);
+            EEG2 = pop_loadbv(exp.pathname, [exp.participants{i_part} '_' exp.name '_2.vhdr']);
+            EEG = pop_mergeset(EEG1,EEG2,1);
 
             
             % load channel information
@@ -57,29 +55,29 @@ try
 
             allevents = length(EEG.event);
 
-               keySet = {'S  1','S  5','S  9','S 13','S 65','S 69','S 73','S 77','S129','S133','S137','S141','S193','S197','S201','S205','boundary'};
-               valueSet = {'100','101','102','103','104','105','106','107','108','109','110','111','112','113','114','115','S999'}; 
-               countSet = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-               Trigger_Map = containers.Map(keySet,valueSet); 
-               Trigger_Count_Map = containers.Map(valueSet,countSet);
-               dead_count_3 = 0;
-               dead_count_4 = 0;
+           keySet = {'S  1','S  5','S  9','S 13','S 65','S 69','S 73','S 77','S129','S133','S137','S141','S193','S197','S201','S205','boundary'};
+           valueSet = {'100','101','102','103','104','105','106','107','108','109','110','111','112','113','114','115','S999'}; 
+           countSet = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+           Trigger_Map = containers.Map(keySet,valueSet); 
+           Trigger_Count_Map = containers.Map(valueSet,countSet);
+           dead_count_3 = 0;
+           dead_count_4 = 0;
 
-                for i_event = 1:allevents
-                   if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15 %% i_event ~= allevents  %%%% && sum(TF1) == 0 - still might miss some if under 15 ms
-                       EEG.event(i_event).type = 'S888';
-                       dead_count_3 = dead_count_3 + 1;
+            for i_event = 1:allevents
+               if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15 %% i_event ~= allevents  %%%% && sum(TF1) == 0 - still might miss some if under 15 ms
+                   EEG.event(i_event).type = 'S888';
+                   dead_count_3 = dead_count_3 + 1;
+               else
+                   TF2 = isKey(Trigger_Map, EEG.event(i_event).type);
+                   if TF2 == 1
+                   EEG.event(i_event).type = Trigger_Map(EEG.event(i_event).type);
+                   Trigger_Count_Map(EEG.event(i_event).type) = Trigger_Count_Map(EEG.event(i_event).type) + 1;
                    else
-                       TF2 = isKey(Trigger_Map, EEG.event(i_event).type);
-                       if TF2 == 1
-                       EEG.event(i_event).type = Trigger_Map(EEG.event(i_event).type);
-                       Trigger_Count_Map(EEG.event(i_event).type) = Trigger_Count_Map(EEG.event(i_event).type) + 1;
-                       else
-                       EEG.event(i_event).type = 'S777';
-                       dead_count_4 = dead_count_4 + 1;
-                       end
+                   EEG.event(i_event).type = 'S777';
+                   dead_count_4 = dead_count_4 + 1;
                    end
-                end
+               end
+            end
 
                     
         end
