@@ -1,0 +1,33 @@
+001
+Eden Redman
+Far/Near
+values(Trigger_Count_Map) using if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15
+near
+[2]    [60]    [60]    [60]    [59]    [59]    [51]    [3]    [1]    [2]    [0]    [60]    [60]    [60]    [59]    [59]    [2]
+far
+[0]    [60]    [60]    [60]    [59]    [59]    [51]    [10]    [13]    [5]    [12]    [60]    [60]    [60]    [59]    [59]    [2]
+
+002
+Jenni Le
+Near/Far
+values(Trigger_Count_Map) using if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15
+near
+[0]    [60]    [60]    [60]    [59]    [59]    [51]    [10]    [13]    [5]    [12]    [60]    [60]    [60]    [59]    [59]    [2]
+far
+[0]    [60]    [59]    [59]    [60]    [60]    [0]    [34]    [37]    [45]    [48]    [60]    [59]    [59]    [60]    [60]    [2]
+
+003
+Madelin Robles
+Near/Far
+
+004
+Abdel Tayem
+Far/Near
+
+005
+Sarah Sheldon
+Near/Far
+
+006
+Jilynne Whittington
+Far/Near

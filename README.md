@@ -1,4 +1,4 @@
-# VR
+﻿# VR
 ## Writing
 Writing up bare bones of 1st VR paper, aiming for mid-February for first draft
 1st paper - aud/vis + 2 position depth oddball
@@ -19,4 +19,14 @@ Final Version done by Monday, Feb 11th through running pilots we found a few mor
 Next version? We will have data all collected by the middle of March at the latest, I think it might be best to spend some time while collecting to develop the next VR experiment, so that middle March to April we can collect data for another paper, can spend the spring writing up papers.
 
 ## Analysis
-Adapting changes from experiment in analysis as I rework the experiment, developing together so I don’t have to back.
+In reverse chronological order:
+
+5_Depth_Colourless
+
+includes markerinfo.txt & subNotes.txt
+
+2_Depth
+
+Aud_Vis
+
+
