@@ -66,6 +66,11 @@ try
            dead_count_4 = 0;
 
             for i_event = 1:allevents
+                %%% was getting double triggers immediately before an
+                %%% appropriate trigger, in a seemingly random fashion,
+                %%% this serves to look if a given trigger x is followed by
+                %%% another trigger y within 15 milliseconds, if so it will
+                %%% remove trigger x
                if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15 %% i_event ~= allevents  %%%% && sum(TF1) == 0 - still might miss some if under 15 ms
                    EEG.event(i_event).type = 'S888';
                    dead_count_3 = dead_count_3 + 1;
