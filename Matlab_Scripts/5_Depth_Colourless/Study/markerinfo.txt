@@ -1,4 +1,4 @@
-Unity	Vamp	 Event	Depth	Recoded as
+Unity	Vamp	 Event	    Depth	Recoded
 2	5	ON 1 			 Depth 1	101
 3	9	ON 2 			 Depth 2	102
 4	13	ON 3  			 Depth 3	103	
