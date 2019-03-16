@@ -2,6 +2,7 @@
 ## Writing
 
 1st paper - aud/vis + 2 position depth oddball
+
 2nd paper - 5 depth colourless
 
 ## Figures
@@ -15,3 +16,6 @@
 Currently in data collection
 
 ## Analysis
+markerinfo.txt - **each event originally + recoded**
+
+subNotes.txt - **notes on each subject**
