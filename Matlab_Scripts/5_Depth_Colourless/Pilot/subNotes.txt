@@ -3,6 +3,7 @@ Far/Near
 
 002
 Near/Far
+This participant appears noisy, had glasees too large for the VR HMD
 
 003
 Near/Far
