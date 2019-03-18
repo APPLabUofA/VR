@@ -1,19 +1,8 @@
 001
 Far/Near
-The followinfg 5 lines are a preprocessing output of preprocessing structure Trigger_Count_Map, which looks at the tally of each event type in accordance with the sequence of markerinfo.txt - we are recording 59/60 events for each depth for onset/offset and the expected responses given the conditions
-values(Trigger_Count_Map) using if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15
-near
-[60]    [60]    [60]    [59]    [59]    [51]    [3]    [1]    [2]    [0]    [60]    [60]    [60]    [59]    [59]    [2]
-far
-[60]    [60]    [60]    [59]    [59]    [51]    [10]    [13]    [5]    [12]    [60]    [60]    [60]    [59]    [59]    [2]
 
 002
 Near/Far
-values(Trigger_Count_Map) using if i_event <= allevents -1 && EEG.event(i_event+1).latency - EEG.event(i_event).latency <= 15
-near
-[60]    [60]    [60]    [59]    [59]    [51]    [10]    [13]    [5]    [12]    [60]    [60]    [60]    [59]    [59]    [2]
-far
-[60]    [59]    [59]    [60]    [60]    [0]    [34]    [37]    [45]    [48]    [60]    [59]    [59]    [60]    [60]    [2]
 
 003
 Near/Far
