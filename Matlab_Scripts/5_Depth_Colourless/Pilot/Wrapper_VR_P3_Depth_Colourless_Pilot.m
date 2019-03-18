@@ -198,3 +198,6 @@ anal.singletrialselecs = [2 3 4 6];
 if exp.analysis == 2
     Analysis_VR_P3_Depth_Colourless(exp,anal) % The Analysis primarily loads the processed data. It will attempt to make some figures, but most analysis will need to be done in seperate scripts.
 end
+
+%% Make plots
+VR_P3_Depth_Colourless_ERP
