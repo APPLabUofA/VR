@@ -1,16 +1,26 @@
-Sent By Unity	Picked up by Vamp	 Event		Recoded as
-2	5	ON 1 			 Depth 1	101
-3	9	ON 2 			 Depth 2	102
-4	13	ON 3  			 Depth 3	103	
-5	65	ON 4 			 Depth 4	104
-6	69	ON 5 			 Depth 5	105
-7	73	RESP 1 			 Depth 1	106
-8	77	RESP 2  		 Depth 2	107
-9	129	RESP 3 	       		 Depth 3	108
-10	133	RESP 4 			 Depth 4	109
-11	137	RESP 5 			 Depth 5	110
-12	141	OFF 1 			 Depth 1	111
-13	193	OFF 2  			 Depth 2	112	
-14	197	OFF 3			 Depth 3	113
-15	201	OFF 4 			 Depth 4	114
-16	205	OFF 5 			 Depth 5	115
+
+Event trigger numbers picked up by the Amp (coloumn 1)
+Events types are either ON (onset) Resp (response) OFF (offset) at one of 5 depths (coloumn 2)
+Triggers are recoded for convience by the matlab preprocessing script at line 60 - 90 (coloumn 3)
+
+Depth 1 is the orb at the depth nearest to participant 
+Depth 5 is the orb at the depth farthest to the participant
+In the Near condition the target is the orb at Depth 1, and all other Depth orbs are standards
+In the Far condition the target is the orb at Depth 5, and all other Depth orbs are standards
+
+Vamp	Event/Depth	Recoded 
+5	ON 1 	 	101
+9	ON 2 	 	102
+13	ON 3  	 	103	
+65	ON 4 	 	104
+69	ON 5 	 	105
+73	RESP 1 	 	106
+77	RESP 2   	107
+129	RESP 3 	 	108
+133	RESP 4 		109
+137	RESP 5 		110
+141	OFF 1 		111
+193	OFF 2  		112	
+197	OFF 3		113
+201	OFF 4 		114
+205	OFF 5 		115
